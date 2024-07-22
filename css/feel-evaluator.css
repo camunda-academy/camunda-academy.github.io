@@ -59,7 +59,8 @@
 
 .CodeMirror {
     border: 1px solid #ccc;
-    height: auto !important;
+    /*height: auto !important;*/
+    height: fit-content;
     border-radius: 5px;
     padding: 12px 0;
 }
