@@ -413,7 +413,7 @@ pre code, pre tt {
 pre[class*="language-"] {
 
   /* make space  */
-  padding-top: 2.3rem;
+  /*padding-top: 2.3rem;*/
 }
 
 div.code-snippet{
@@ -430,7 +430,7 @@ div.code-snippet button {
   background-color: inherit;
   color: rgb(242 91 0 / 80%);
   border: ridge 1px #ccc;
-  border-radius: 7px;
+  border-radius: 5px;
   text-shadow: #ecceb5 0 0 2px;
 }
 
