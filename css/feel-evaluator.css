@@ -47,11 +47,13 @@
 }
 .evaluator #result, #warnings, #error {
     background: #f8f9fa;
-    padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
     text-align: left;
     white-space: pre-wrap;
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
     word-wrap: break-word;
 }
 
