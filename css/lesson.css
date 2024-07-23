@@ -411,7 +411,7 @@ pre code, pre tt {
 
 /* CODE-SNIPPET */
 
-pre[class*="language-"] {}
+pre[class*="language-"] {margin: revert;}
 
 div.code-snippet{
   position: relative;
