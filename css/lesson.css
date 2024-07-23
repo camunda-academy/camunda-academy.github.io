@@ -410,14 +410,14 @@ pre code, pre tt {
 
 /* CODE-SNIPPET */
 
-pre[class*="language-"] {
-
-  /* make space  */
-  /*padding-top: 2.3rem;*/
-}
+pre[class*="language-"] {}
 
 div.code-snippet{
   position: relative;
+  top: 10px;
+  width: 100%;
+  float: right;
+  margin: 5px;
 }
 
 div.code-snippet button {
