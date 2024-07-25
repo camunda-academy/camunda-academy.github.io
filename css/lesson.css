@@ -245,7 +245,7 @@ table tr th {
   text-align: left;
   margin: 0;
   padding: 6px 13px;
-  font-size:smaller;
+  font-size:14px;
 }
 
 table tr td {
@@ -253,7 +253,7 @@ table tr td {
   text-align: left;
   margin: 0;
   padding: 6px 13px;
-  font-size:small;
+  font-size:14px;
 }
 
 table tr th :first-child, table tr td :first-child {
