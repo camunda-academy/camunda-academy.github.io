@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	var contextElement = document.getElementById("context");
 	var resultElement = document.getElementById("result");
 	if (!expressionElement || !contextElement) {
-		console.warn("Required elements (#expression or #context) not found in the DOM.");
+		//console.warn("Required elements (#expression or #context) not found in the DOM.");
 		return; // Exit if elements are not found
 	}
 	var expressionTextArea = CodeMirror.fromTextArea(expressionElement, {
