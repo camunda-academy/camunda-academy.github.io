@@ -159,10 +159,14 @@ ul, ol {
   padding-left: 30px;
 }
 
+li > pre.language-js:last-child {
+  margin-bottom: 1.25em;
+}
+/*
 li > p:last-child {
   margin: 0;
 }
-
+*/
 li > p:has(+ ol) {
   margin-bottom: 0;
 }
