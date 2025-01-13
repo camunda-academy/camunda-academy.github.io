@@ -163,6 +163,10 @@ li > p:last-child {
   margin: 0;
 }
 
+li > p:has(+ ol) {
+  margin-bottom: 0;
+}
+
 .adm-body > p:last-child {
   margin: 0;
   margin-bottom: 5px;
