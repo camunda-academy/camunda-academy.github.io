@@ -163,6 +163,10 @@ ul, ol {
   padding-left: 30px;
 }
 
+ol li ul {
+  margin-bottom: 1.25em;
+}
+
 li > pre.language-js:last-child {
   margin-bottom: 1.25em;
 }
