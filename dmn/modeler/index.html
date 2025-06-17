@@ -41,7 +41,15 @@
 
     <script>
 
-      var diagramUrl = 'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/dmn/requestCarInsurance.dmn';
+      //var diagramUrl = 'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/dmn/requestCarInsurance.dmn';
+      // Get diagramUrl from query string, fallback to default if not present
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      var diagramUrl = getQueryParam('diagramUrl') ||
+        'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/bpmn/Handle%20Customer%20Onsite%20Request%20Process.bpmn';
 
       // modeler instance
       var dmnModeler = new DmnJS({

@@ -27,7 +27,17 @@
     <script src="https://unpkg.com/dmn-js@17.2.0/dist/dmn-viewer.development.js"></script>
 
     <script>
-      const diagramUrl = 'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/dmn/requestCarInsurance.dmn';
+      //const diagramUrl = 'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/dmn/requestCarInsurance.dmn';
+
+      // Get diagramUrl from query string, fallback to default if not present
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      var diagramUrl = getQueryParam('diagramUrl') ||
+        'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/bpmn/Handle%20Customer%20Onsite%20Request%20Process.bpmn';
+
 
       // viewer instance
       const dmnViewer = new DmnJS({
