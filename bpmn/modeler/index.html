@@ -44,15 +44,34 @@
         bottom: 20px;
         left: 20px;
       }
+
+      .zoom-controls {
+        position: absolute;
+        top: 10px;
+        right: 10px; /* changed from left to right */
+        z-index: 1000; /* increased to ensure on top */
+        display: flex;
+        gap: 4px;
+      }
+      .zoom-controls button {
+        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
+    <div class="zoom-controls">
+      <button id="zoom-in">+</button>
+      <button id="zoom-out">−</button>
+      <button id="zoom-reset">⟳</button>
+    </div>
     <div id="canvas"></div>
 
     <!--<button id="save-button">print to console</button>-->
 
     <script>
-
       //var diagramUrl = 'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/master/bpmn/Handle%20Customer%20Onsite%20Request%20Process.bpmn';
 
       // Get diagramUrl from query string, fallback to default if not present
@@ -68,6 +87,24 @@
       var bpmnModeler = new BpmnJS({
         container: '#canvas',
       });
+
+      var currentZoom = 1;
+
+      function setZoom(zoom) {
+        currentZoom = zoom;
+        bpmnModeler.get('canvas').zoom(currentZoom);
+      }
+
+      document.getElementById('zoom-in').onclick = function() {
+        setZoom(Math.min(currentZoom + 0.2, 4));
+      };
+      document.getElementById('zoom-out').onclick = function() {
+        setZoom(Math.max(currentZoom - 0.2, 0.2));
+      };
+      document.getElementById('zoom-reset').onclick = function() {
+        bpmnModeler.get('canvas').zoom('fit-viewport');
+        currentZoom = 1;
+      };
 
       /**
        * Save diagram contents and print them to the console.
@@ -106,6 +143,7 @@
 
           // zoom to fit full viewport
           canvas.zoom('fit-viewport');
+          currentZoom = 1;
 
           // attach an overlay to a node
           overlays.add('SCAN_OK', 'note', {

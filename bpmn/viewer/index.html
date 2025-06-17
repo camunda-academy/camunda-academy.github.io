@@ -35,18 +35,25 @@
       .needs-discussion:not(.djs-connection) .djs-visual > :nth-child(1) {
         stroke: rgba(66, 180, 21, 0.7) !important;
       }
+      
+      #save-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+      }
 
       .zoom-controls {
         position: absolute;
         top: 10px;
-        left: 10px;
-        z-index: 10;
+        right: 10px; /* changed from left to right */
+        z-index: 1000; /* increased to ensure on top */
+        display: flex;
+        gap: 4px;
       }
       .zoom-controls button {
         font-size: 18px;
         width: 36px;
         height: 36px;
-        margin-right: 4px;
         cursor: pointer;
       }
     </style>
