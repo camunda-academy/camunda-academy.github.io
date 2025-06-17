@@ -18,6 +18,8 @@
       add your form schema to this script tag
       alternatively, load it asynchronously from anywhere
     -->
+
+    <!--
     <script type="application/form-schema">
 {"executionPlatform":"Camunda Cloud","executionPlatformVersion":"8.7.0","exporter":{"name":"Camunda Web Modeler","version":"b05b990"},"schemaVersion":18,"id":"Form_DefineScopeAndTermsWithCustomer-0s8syo5","components": [
     {
@@ -79,23 +81,43 @@
     }
   ],"type":"default"}
     </script>
+  -->
+
+    <script>
+
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      async function loadSchema() {
+        const schemaUrl = getQueryParam('json');
+        if (schemaUrl) {
+          // Fetch schema from URL
+          const response = await fetch(schemaUrl);
+          return await response.json();
+        } else {
+          // Fallback to embedded schema
+          return JSON.parse(
+            document.querySelector('[type="application/form-schema"]').textContent
+          );
+        }
+      }
+
+      const container = document.querySelector('#form');
+
+      loadSchema().then(schema => {
+        FormViewer.createForm({
+          container,
+          schema
+        });
+      });
+    </script>
 
     <!--
       required viewer script
     -->
     <script src="https://unpkg.com/@bpmn-io/form-js@1.15.3/dist/form-viewer.umd.js"></script>
 
-    <script>
-      const schema = JSON.parse(
-        document.querySelector('[type="application/form-schema"]').textContent
-      );
-
-      const container = document.querySelector('#form');
-
-      FormViewer.createForm({
-        container,
-        schema
-      });
-    </script>
   </body>
 </html>
