@@ -1,0 +1,62 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "dbbc8fe"
+  },
+  "schemaVersion": 18,
+  "id": "Form_0kirfmr",
+  "components": [
+    {
+      "text": "### Employee Joining Form",
+      "type": "text",
+      "id": "Heading_0",
+      "layout": {
+        "row": "row_0",
+        "columns": null
+      }
+    },
+    {
+      "label": "Employee Name",
+      "type": "textfield",
+      "id": "Textfield_1",
+      "validate": {
+        "required": true
+      },
+      "key": "employeeName",
+      "layout": {
+        "row": "row_1",
+        "columns": null
+      }
+    },
+    {
+      "label": "Employee ID",
+      "type": "textfield",
+      "id": "Textfield_2",
+      "validate": {
+        "required": true
+      },
+      "key": "employeeID",
+      "layout": {
+        "row": "row_1",
+        "columns": null
+      }
+    },
+    {
+      "label": "Joining Date",
+      "type": "textfield",
+      "id": "Textfield_3",
+      "validate": {
+        "required": true
+      },
+      "key": "joiningDate",
+      "layout": {
+        "row": "row_1",
+        "columns": null
+      }
+    }
+  ],
+  "generated": true,
+  "type": "default"
+}
