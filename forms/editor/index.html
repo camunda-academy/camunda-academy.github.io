@@ -128,23 +128,14 @@
       async function loadSchema() {
         const schemaUrl = getQueryParam('json');
         if (schemaUrl) {
-          try {
-            const response = await fetch(schemaUrl);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const text = await response.text();
-            return JSON.parse(text);
-          } catch (e) {
-            alert('Failed to load schema from URL: ' + e.message);
-            return {};
-          }
+          // Fetch schema from URL
+          const response = await fetch(schemaUrl);
+          return await response.json();
         } else {
-          const embedded = document.querySelector('[type="application/form-schema"]');
-          if (embedded) {
-            return JSON.parse(embedded.textContent);
-          } else {
-            alert('No form schema found. Please provide a ?json= URL or embed a schema.');
-            return {};
-          }
+          // Fallback to embedded schema
+          return JSON.parse(
+            document.querySelector('[type="application/form-schema"]').textContent
+          );
         }
       }
 
