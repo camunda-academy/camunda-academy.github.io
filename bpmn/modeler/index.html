@@ -41,8 +41,13 @@
 
       #save-button {
         position: fixed;
-        bottom: 20px;
-        left: 20px;
+        top: 10px;
+        right: 134px;
+        width: 36px;
+        height: 36px;
+        background-color: #c3c0c0;
+        cursor: pointer;
+        border: 1px solid #767676;
       }
 
       .zoom-controls {
@@ -63,9 +68,9 @@
   </head>
   <body>
     <div class="zoom-controls">
-      <button id="zoom-in">+</button>
-      <button id="zoom-out">−</button>
-      <button id="zoom-reset">⟳</button>
+      <button id="zoom-in" title="Zoom in">+</button>
+      <button id="zoom-out" title="Zoom out">−</button>
+      <button id="zoom-reset" title="Reset view">⟳</button>
     </div>
     <div id="canvas"></div>
 
