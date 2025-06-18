@@ -70,9 +70,10 @@
 
       // Extract the name attribute from <dmn:definitions name="...">
       function getDefinitionsName(xml) {
-        const match = xml.match(/<dmn:definitions[^>]*\sname="([^"]+)"/);
-        if (match && match[1]) {
-          return match[1].replace(/[\\/:*?"<>|]+/g, '_'); // sanitize for file names
+        // Match <definitions ... name="..."> or <dmn:definitions ... name="...">
+        const match = xml.match(/<([a-zA-Z0-9:]*definitions)[^>]*\sname="([^"]+)"/);
+        if (match && match[2]) {
+          return match[2].replace(/[\\/:*?"<>|]+/g, '_'); // sanitize for file names
         }
         return 'diagram';
       }
