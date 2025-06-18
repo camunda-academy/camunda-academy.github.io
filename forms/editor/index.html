@@ -166,9 +166,9 @@
         });
       });
 
-      document.getElementById('save-button').onclick = async function() {
+      document.getElementById('save-button').onclick = function() {
         if (!formEditorInstance) return;
-        const { schema } = await formEditorInstance.save();
+        const { schema } = formEditorInstance.getSchema();
         const name = getFormName(schema || loadedSchema);
         download(name + '.json', JSON.stringify(schema, null, 2));
       };
