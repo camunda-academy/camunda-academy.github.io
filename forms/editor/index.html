@@ -112,7 +112,6 @@
   -->
 
     <script>
-
       function getQueryParam(name) {
         const params = new URLSearchParams(window.location.search);
         return params.get(name);
@@ -160,15 +159,15 @@
 
       loadSchema().then(schema => {
         loadedSchema = schema;
-        formEditorInstance = FormEditor.createFormEditor({
+        formEditorInstance = window.FormEditor.createFormEditor({
           container,
           schema
         });
       });
 
       document.getElementById('save-button').onclick = function() {
-        if (!formEditorInstance) return;
-        const { schema } = formEditorInstance.getSchema();
+        if (!formEditorInstance || !formEditorInstance.formEditor) return;
+        const schema = formEditorInstance.formEditor.getSchema();
         const name = getFormName(schema || loadedSchema);
         download(name + '.json', JSON.stringify(schema, null, 2));
       };
