@@ -122,9 +122,15 @@
 
       // Extract the name attribute from <bpmn:collaboration name="..."> or <collaboration name="...">
       function getCollaborationName(xml) {
-        const match = xml.match(/<([a-zA-Z0-9:]*collaboration)[^>]*\sname="([^"]+)"/);
+        // Try to match <bpmn:collaboration ... name="..."> or <collaboration ... name="...">
+        let match = xml.match(/<([a-zA-Z0-9:]*collaboration)[^>]*\sname="([^"]+)"/);
         if (match && match[2]) {
           return match[2].replace(/[\\/:*?"<>|]+/g, '_'); // sanitize for file names
+        }
+        // If no name, try to match id
+        match = xml.match(/<([a-zA-Z0-9:]*collaboration)[^>]*\sid="([^"]+)"/);
+        if (match && match[2]) {
+          return match[2].replace(/[\\/:*?"<>|]+/g, '_');
         }
         return 'diagram';
       }
