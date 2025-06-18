@@ -30,17 +30,20 @@
         background-color: #c3c0c0;
         cursor: pointer;
         border: 1px solid #767676;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     </style>
   </head>
   <body>
     <div id="canvas"></div>
 
-    <button id="save-button" title="Export BPMN" style="display: flex; align-items: center; justify-content: center;">
-  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M12 3v14m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
+    <button id="save-button" title="Export DMN">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 3v14m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
 
     <!-- modeler distro -->
     <script src="https://unpkg.com/dmn-js@17.2.0/dist/dmn-modeler.development.js"></script>
@@ -49,16 +52,13 @@
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.js"></script>
 
     <script>
-
-      //var diagramUrl = 'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/dmn/requestCarInsurance.dmn';
-      // Get diagramUrl from query string, fallback to default if not present
       function getQueryParam(name) {
         const params = new URLSearchParams(window.location.search);
         return params.get(name);
       }
 
       var diagramUrl = getQueryParam('diagramUrl') ||
-        'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/bpmn/Handle%20Customer%20Onsite%20Request%20Process.bpmn';
+        'https://raw.githubusercontent.com/camunda-academy/camunda-academy.github.io/refs/heads/master/dmn/requestCarInsurance.dmn';
 
       // modeler instance
       var dmnModeler = new DmnJS({
@@ -68,53 +68,48 @@
         }
       });
 
-      /**
-       * Save diagram contents and print them to the console.
-       */
+      // Extract the name attribute from <dmn:definitions name="...">
+      function getDefinitionsName(xml) {
+        const match = xml.match(/<dmn:definitions[^>]*\sname="([^"]+)"/);
+        if (match && match[1]) {
+          return match[1].replace(/[\\/:*?"<>|]+/g, '_'); // sanitize for file names
+        }
+        return 'diagram';
+      }
+
+      function download(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/xml;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+
       function exportDiagram() {
-
         dmnModeler.saveXML({ format: true }, function(err, xml) {
-
           if (err) {
             return console.error('could not save DMN 1.1 diagram', err);
           }
-
-          alert('Diagram exported. Check the Console in the developer tools (F12) to get the schema!');
-
-          console.log('DIAGRAM', xml);
+          const name = getDefinitionsName(xml);
+          download(name + '.dmn', xml);
         });
       }
 
-      /**
-       * Open diagram in our modeler instance.
-       *
-       * @param {String} dmnXML diagram to display
-       */
       function openDiagram(dmnXML) {
-
-        // import diagram
         dmnModeler.importXML(dmnXML, function(err) {
-
           if (err) {
             return console.error('could not import DMN 1.1 diagram', err);
           }
-          
-          // fetch currently active view
           var activeView = dmnModeler.getActiveView();
-
-          // apply initial logic in DRD view
           if (activeView.type === 'drd') {
             var activeEditor = dmnModeler.getActiveViewer();
-
-            // access active editor components
             var canvas = activeEditor.get('canvas');
-
-            // zoom to fit full viewport
             canvas.zoom('fit-viewport');
           }
         });
       }
-
 
       // load external diagram file via AJAX and open it
       $.get(diagramUrl, openDiagram, 'text');
