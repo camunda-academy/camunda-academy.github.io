@@ -1,10 +1,11 @@
-<html>More actions
+<html>
   <head>
     <!--
       required editor styles
     -->
     <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@1.15.3/dist/assets/form-js.css">
     <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@1.15.3/dist/assets/form-js-editor.css">
+    <script src="https://unpkg.com/@bpmn-io/form-js@1.15.3/dist/form-editor.umd.js"></script>
 
     <style>
       body, html {
@@ -16,56 +17,121 @@
       #form {
         max-width: 100%;
       }
+      #save-button{
+        background: #c3c0c0;
+        border: 1px solid #767676;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        cursor: pointer;
+        color:White;
+      }
+      #save-button:hover{
+        color:blue;
+      }
+      #save-button[disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+      }
     </style>
   </head>
 
   <body>
     <div id="form"></div>
-
-    <!--
-      add your form schema to this script tag
-      alternatively, load it asynchronously from anywhere
-
-    <script type="application/form-schema">
-
-    </script>
-  -->
+    <button id="save-button" title="Export Form" disabled
+      style="position:fixed;top:10px;right:20px;width:36px;height:36px;background:#c3c0c0;border:1px solid #767676;display:flex;align-items:center;justify-content:center;z-index:1000;cursor:pointer;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 3v14m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
 
     <script>
-
-      function getQueryParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
-      }
-
+      // Improvement 2: Error handling for fetch
       async function loadSchema() {
-        const schemaUrl = getQueryParam('json');
+        const params = new URLSearchParams(window.location.search);
+        const schemaUrl = params.get('json');
         if (schemaUrl) {
-          // Fetch schema from URL
-          const response = await fetch(schemaUrl);
-          return await response.json();
+          try {
+            const response = await fetch(schemaUrl);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const text = await response.text();
+            return JSON.parse(text);
+          } catch (e) {
+            alert('Failed to load schema from URL: ' + e.message);
+            return null;
+          }
         } else {
-          // Fallback to embedded schema
-          return JSON.parse(
-            document.querySelector('[type="application/form-schema"]').textContent
-          );
+          const embedded = document.querySelector('[type="application/form-schema"]');
+          if (embedded) {
+            try {
+              return JSON.parse(embedded.textContent);
+            } catch (e) {
+              alert('Embedded schema is not valid JSON.');
+              return null;
+            }
+          } else {
+            alert('No form schema found. Please provide a ?json= URL or embed a schema.');
+            return null;
+          }
         }
       }
 
+      function getFormName(schema) {
+        if (schema && schema.name) {
+          return schema.name.replace(/[\\/:*?"<>|]+/g, '_');
+        }
+        if (schema && schema.id) {
+          return schema.id.replace(/[\\/:*?"<>|]+/g, '_');
+        }
+        return 'form';
+      }
+
+      function download(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+
       const container = document.querySelector('#form');
+      const saveButton = document.getElementById('save-button');
+      let formEditorInstance;
+      let loadedSchema;
+
+      // Improvement 1: Disable button until editor is ready
+      saveButton.disabled = true;
 
       loadSchema().then(schema => {
-        FormEditor.createFormEditor({
+        if (!schema) {
+          saveButton.disabled = true;
+          return;
+        }
+        loadedSchema = schema;
+        window.FormEditor.createFormEditor({
           container,
           schema
+        }).then(instance => {
+          formEditorInstance = instance;
+          saveButton.disabled = false; // Enable button when ready
         });
       });
-    </script>  
 
-    <!--
-      required editor script
-    -->
-    <script src="https://unpkg.com/@bpmn-io/form-js@1.15.3/dist/form-editor.umd.js"></script>
-    
+      // Improvement 3: Add console.log to confirm button handler is called
+      saveButton.onclick = function() {
+        console.log('Export button clicked');
+        if (!formEditorInstance) {
+          console.log('Form editor not ready');
+          return;
+        }
+        const schema = formEditorInstance.getSchema();
+        const name = getFormName(schema || loadedSchema);
+        console.log('Exporting schema:', schema);
+        download(name + '.json', JSON.stringify(schema, null, 2));
+      };
+    </script>
   </body>
 </html>
