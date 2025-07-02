@@ -62,8 +62,16 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:adHocSubProcess id="Activity_06c9fan" name="Tool box">
+      <bpmn:extensionElements>
+        <zeebe:adHoc activeElementsCollection="=tools" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0gob5q3</bpmn:incoming>
       <bpmn:outgoing>Flow_1lhcwo3</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputCollection="=tools" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
       <bpmn:userTask id="Activity_0362jft" name="Get More Info">
         <bpmn:documentation>This is the task used to get more info</bpmn:documentation>
         <bpmn:extensionElements>
