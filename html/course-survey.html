@@ -1,5 +1,15 @@
 <script type="text/javascript">
 console.log("console log from course-survey.html");
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Check if the skilljarUser object is available
+    if (typeof skilljarUser !== 'undefined') {
+        // Display email address in a specific HTML element
+        // document.getElementById('student-email').innerText = skilljarUser.email;
+      console.log(skilljarUser);
+    } else {
+        console.error('Skilljar user email not found.');
+    }
+});
 
-console.log(skilljarUser);
 </script>
+
