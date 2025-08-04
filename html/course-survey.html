@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         console.log(skilljarUser.name);
     } else if (typeof window.skilljarUser !== 'undefined') {
         console.log("window.skilljarUser: " + window.skilljarUser);
-    } else if (typeof parent.skilljarUser !== 'undefined') {
-        console.log("parent.skilljarUser: " + parent.skilljarUser);
     } else if (typeof top.skilljarUser !== 'undefined') {
         console.log("top.skilljarUser: " + top.skilljarUser);
+    } else if (typeof parent.skilljarUser !== 'undefined') {
+        console.log("parent.skilljarUser: " + parent.skilljarUser);
     } else {
         console.error('Skilljar user email not found.');
     }
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 </script>
+
 
 
 
