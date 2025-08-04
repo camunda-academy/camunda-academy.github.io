@@ -8,12 +8,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (typeof skilljarUser !== 'undefined') {
         // Display email address in a specific HTML element
         // document.getElementById('student-email').innerText = skilljarUser.email;
-      console.log(skilljarUser);
+        console.log(skilljarUser);
+        console.log(skilljarUser.email);
+        console.log(skilljarUser.name);
+    } else if (typeof window.skilljarUser !== 'undefined') {
+        console.log("window.skilljarUser: " + window.skilljarUser);
+    } else if (typeof parent.skilljarUser !== 'undefined') {
+        console.log("parent.skilljarUser: " + parent.skilljarUser);
+    } else if (typeof top.skilljarUser !== 'undefined') {
+        console.log("top.skilljarUser: " + top.skilljarUser);
     } else {
         console.error('Skilljar user email not found.');
     }
+    if (typeof skilljarCourse !== 'undefined') {
+        console.log(skilljarCourse);
+        console.log(skilljarCourse.title);
+    } else {
+        console.error('Skilljar course not found.');
+    }
+    
 });
 
 </script>
+
 
 
