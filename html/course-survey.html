@@ -1,6 +1,9 @@
 <script type="text/javascript">
 console.log("console log from course-survey.html");
 document.addEventListener('DOMContentLoaded', (event) => {
+    console.log(Object.keys(window));
+    console.log(Object.keys(parent));
+    console.log(Object.keys(top));
     // Check if the skilljarUser object is available
     if (typeof skilljarUser !== 'undefined') {
         // Display email address in a specific HTML element
@@ -12,4 +15,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 </script>
+
 
