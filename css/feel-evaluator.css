@@ -23,14 +23,15 @@
     font-weight: bold;
     margin: 10px 0;
 }
+/*
 .evaluator input[type="text"], textarea {
-    /*width: calc(100% - 20px);*/
     width: calc(100%);
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+*/
 .evaluator input[type="submit"] {
     background-color: #007bff;
     color: white;
@@ -58,6 +59,7 @@
     margin: .5em 0;
     overflow: auto;
     word-wrap: break-word;
+    width: calc(100% - 2em);
 }
 
 /* CODE MIRROR JS library*/
