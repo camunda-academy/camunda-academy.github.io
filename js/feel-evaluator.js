@@ -31,17 +31,31 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById('context').value = contextTextArea.getValue();
 		const expressionField = document.getElementById('expression').value;
 		const contextField = document.getElementById('context').value;
-		const response = await fetch('https://feel.upgradingdave.com/api/v1/feel/evaluate', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				"expression": expressionField,
-				"context": JSON.parse(contextField),
-				"metadata": {"source": "camunda-academy"}
-			})
-		});
+		let response;
+		try {
+			response = await fetch('https://feel.upgradingdave.com/api/v1/feel/evaluate', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"expression": expressionField,
+					"context": JSON.parse(contextField),
+					"metadata": {"source": "camunda-academy"}
+				})
+			});
+		} catch (networkError) {
+			document.getElementById('result').value = '';
+			document.getElementById('warnings').innerText = 'None';
+			document.getElementById('error').innerText = 'The evaluation server is currently unavailable. Please try again later.';
+			return;
+		}
+		if (!response.ok) {
+			document.getElementById('result').value = '';
+			document.getElementById('warnings').innerText = 'None';
+			document.getElementById('error').innerText = `The evaluation server is currently unavailable (HTTP ${response.status}). Please try again later.`;
+			return;
+		}
 		const result = await response.json();
 		document.getElementById('result').value = JSON.stringify(result.result, null, 2);      
 		document.getElementById('warnings').innerText = JSON.stringify(result.warnings, null, 2);
